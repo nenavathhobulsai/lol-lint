@@ -10,6 +10,8 @@ A strict, unapologetic linter for **LOLCODE**
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-1.70+-orange.svg)](https://www.rust-lang.org)
 
+**The language may be a joke. The linter is not.**
+
 </div>
 
 ---
@@ -26,6 +28,14 @@ A strict, unapologetic linter for **LOLCODE**
 | **Debug Mode** | Token and AST inspection for debugging |
 
 ## Installation
+
+### From crates.io
+
+```bash
+cargo install lol-lint
+```
+
+### From source
 
 ```bash
 cargo build --release
