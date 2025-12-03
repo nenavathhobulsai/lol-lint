@@ -1,0 +1,14 @@
+HAI 1.2
+
+BTW WARNING: Empty YA RLY block
+
+I HAS A x ITZ 5
+
+BOTH SAEM x AN 5
+O RLY?
+    YA RLY
+    NO WAI
+        VISIBLE "no"
+OIC
+
+KTHXBYE

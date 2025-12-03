@@ -1,0 +1,13 @@
+HAI 1.2
+
+BTW WARNING: Missing NO WAI branch
+
+I HAS A x ITZ 5
+
+BOTH SAEM x AN 5
+O RLY?
+    YA RLY
+        VISIBLE "yes"
+OIC
+
+KTHXBYE

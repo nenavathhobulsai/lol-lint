@@ -1,0 +1,16 @@
+# Rust
+target/
+**/*.rs.bk
+
+# Cargo
+.cargo/
+
+# IDEs
+.vscode/
+.idea/
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib

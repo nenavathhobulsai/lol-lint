@@ -1,0 +1,10 @@
+HAI 1.2
+
+BTW WARNING: Empty loop body
+
+IM IN YR LOOP
+IM OUTTA YR LOOP
+
+VISIBLE "after loop"
+
+KTHXBYE
