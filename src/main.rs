@@ -8,13 +8,13 @@ mod parser;
 mod types;
 
 use clap::Parser as ClapParser;
+use colored::*;
+use lexer::Lexer;
+use linter::Linter;
+use parser::Parser;
+use serde::Serialize;
 use std::fs;
 use std::process;
-use lexer::Lexer;
-use parser::Parser;
-use linter::Linter;
-use colored::*;
-use serde::Serialize;
 
 /// command-line interface structure for argument parsing
 #[derive(ClapParser)]
@@ -74,7 +74,12 @@ fn main() {
         Ok(c) => c,
         Err(e) => {
             if !cli.json {
-                eprintln!("{} Could not read file '{}': {}", "error:".red().bold(), cli.file, e);
+                eprintln!(
+                    "{} Could not read file '{}': {}",
+                    "error:".red().bold(),
+                    cli.file,
+                    e
+                );
             }
             process::exit(2);
         }
@@ -95,17 +100,16 @@ fn main() {
 
     // parse tokens into abstract syntax tree
     let mut parser = Parser::new(tokens);
-    let program = match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-        parser.parse_program()
-    })) {
-        Ok(p) => p,
-        Err(_) => {
-            if !cli.json {
-                eprintln!("{} Parsing failed", "error:".red().bold());
+    let program =
+        match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| parser.parse_program())) {
+            Ok(p) => p,
+            Err(_) => {
+                if !cli.json {
+                    eprintln!("{} Parsing failed", "error:".red().bold());
+                }
+                process::exit(2);
             }
-            process::exit(2);
-        }
-    };
+        };
 
     // display ast in debug mode
     if cli.debug {
@@ -160,19 +164,29 @@ fn print_human_readable(linter: &Linter, stats: Option<&Stats>) {
         println!();
         let error_count = linter.errors.len();
         let warning_count = linter.warnings.len();
-        
+
         let error_text = if error_count > 0 {
-            format!("{} error{}", error_count, if error_count == 1 { "" } else { "s" }).red()
+            format!(
+                "{} error{}",
+                error_count,
+                if error_count == 1 { "" } else { "s" }
+            )
+            .red()
         } else {
             format!("{} errors", error_count).normal()
         };
-        
+
         let warning_text = if warning_count > 0 {
-            format!("{} warning{}", warning_count, if warning_count == 1 { "" } else { "s" }).yellow()
+            format!(
+                "{} warning{}",
+                warning_count,
+                if warning_count == 1 { "" } else { "s" }
+            )
+            .yellow()
         } else {
             format!("{} warnings", warning_count).normal()
         };
-        
+
         println!("{}, {}", error_text, warning_text);
     } else {
         println!("{} No linting issues found", "✓".green().bold());
@@ -193,7 +207,8 @@ fn print_human_readable(linter: &Linter, stats: Option<&Stats>) {
 /// calculates code statistics by analyzing the ast and source content
 fn calculate_stats(program: &ast::Program, content: &str) -> Stats {
     // count non-empty, non-comment lines
-    let lines_of_code = content.lines()
+    let lines_of_code = content
+        .lines()
         .filter(|line| {
             let trimmed = line.trim();
             !trimmed.is_empty() && !trimmed.starts_with("BTW") && !trimmed.starts_with("OBTW")
@@ -205,7 +220,13 @@ fn calculate_stats(program: &ast::Program, content: &str) -> Stats {
     let mut conditionals = 0;
     let mut expressions = 0;
 
-    count_in_block(&program.body, &mut variables, &mut loops, &mut conditionals, &mut expressions);
+    count_in_block(
+        &program.body,
+        &mut variables,
+        &mut loops,
+        &mut conditionals,
+        &mut expressions,
+    );
 
     Stats {
         lines_of_code,
@@ -217,7 +238,13 @@ fn calculate_stats(program: &ast::Program, content: &str) -> Stats {
 }
 
 /// recursively counts ast nodes in a block for statistics
-fn count_in_block(block: &ast::Block, vars: &mut usize, loops: &mut usize, conds: &mut usize, exprs: &mut usize) {
+fn count_in_block(
+    block: &ast::Block,
+    vars: &mut usize,
+    loops: &mut usize,
+    conds: &mut usize,
+    exprs: &mut usize,
+) {
     for stmt in &block.statements {
         match stmt {
             ast::Statement::Declaration { .. } => *vars += 1,

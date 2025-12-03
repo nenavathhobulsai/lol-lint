@@ -30,15 +30,47 @@ impl Token {
     pub fn is_keyword(word: &str) -> bool {
         matches!(
             word,
-            "HAI" | "KTHXBYE" |
-            "VISIBLE" | "GIMMEH" |
-            "I" | "HAS" | "A" | "ITZ" | "R" | "AN" |
-            "SUM" | "OF" | "DIFF" | "PRODUKT" | "QUOSHUNT" | "MOD" |
-            "BOTH" | "SAEM" | "DIFFRINT" |
-            "O" | "RLY?" | "YA" | "RLY" | "MEBBE" | "NO" | "WAI" | "OIC" |
-            "IM" | "IN" | "YR" | "LOOP" | "UPPIN" | "NERFIN" | "TIL" | "WILE" |
-            "HOW" | "DUZ" | "FOUND" | "MKAY" |
-            "OBTW" | "TLDR"
+            "HAI"
+                | "KTHXBYE"
+                | "VISIBLE"
+                | "GIMMEH"
+                | "I"
+                | "HAS"
+                | "A"
+                | "ITZ"
+                | "R"
+                | "AN"
+                | "SUM"
+                | "OF"
+                | "DIFF"
+                | "PRODUKT"
+                | "QUOSHUNT"
+                | "MOD"
+                | "BOTH"
+                | "SAEM"
+                | "DIFFRINT"
+                | "O"
+                | "RLY?"
+                | "YA"
+                | "RLY"
+                | "MEBBE"
+                | "NO"
+                | "WAI"
+                | "OIC"
+                | "IM"
+                | "IN"
+                | "YR"
+                | "LOOP"
+                | "UPPIN"
+                | "NERFIN"
+                | "TIL"
+                | "WILE"
+                | "HOW"
+                | "DUZ"
+                | "FOUND"
+                | "MKAY"
+                | "OBTW"
+                | "TLDR"
         )
     }
 }

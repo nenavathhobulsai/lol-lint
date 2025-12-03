@@ -14,17 +14,45 @@ pub enum Expression {
     Number(String, Position),
     String(String, Position),
     Identifier(String, Position),
-    
+
     // arithmetic operations
-    Sum { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    Diff { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    Produkt { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    Quoshunt { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    Mod { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    
+    Sum {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+    Diff {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+    Produkt {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+    Quoshunt {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+    Mod {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+
     // comparison operations
-    BothSaem { left: Box<Expression>, right: Box<Expression>, pos: Position },
-    Diffrint { left: Box<Expression>, right: Box<Expression>, pos: Position },
+    BothSaem {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
+    Diffrint {
+        left: Box<Expression>,
+        right: Box<Expression>,
+        pos: Position,
+    },
 }
 
 /// statement nodes representing actions and control flow
@@ -58,10 +86,7 @@ pub enum Statement {
     },
 
     /// loop statement (im in yr loop ... im outta yr loop)
-    Loop {
-        body: Block,
-        pos: Position,
-    },
+    Loop { body: Block, pos: Position },
 
     /// standalone expression statement (sets implicit it variable)
     ExpressionStatement {

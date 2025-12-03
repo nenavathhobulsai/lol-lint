@@ -1,7 +1,7 @@
 // linter: semantic analysis and code quality checks
 // performs variable tracking, detects errors and warnings
 
-use crate::ast::{Program, Block, Statement, Expression};
+use crate::ast::{Block, Expression, Program, Statement};
 use std::collections::HashSet;
 
 /// linter state tracking errors, warnings, and variable usage
@@ -22,10 +22,10 @@ impl Linter {
             declared_vars: HashSet::new(),
             used_vars: HashSet::new(),
         };
-        
+
         linter.check_block(&program.body);
         linter.check_unused_variables();
-        
+
         linter
     }
 
@@ -73,14 +73,21 @@ impl Linter {
                 }
             }
 
-            Statement::Visible { expressions, pos: _ } => {
+            Statement::Visible {
+                expressions,
+                pos: _,
+            } => {
                 // validate all expressions in output statement
                 for expr in expressions {
                     self.check_expression(expr);
                 }
             }
 
-            Statement::ORly { ya_rly, no_wai, pos } => {
+            Statement::ORly {
+                ya_rly,
+                no_wai,
+                pos,
+            } => {
                 // warn about empty if branches
                 if ya_rly.statements.is_empty() {
                     self.warnings.push(format!(
@@ -116,7 +123,7 @@ impl Linter {
 
             Statement::ExpressionStatement { expression, pos: _ } => {
                 self.check_expression(expression);
-                
+
                 // detect constant expressions that are always true/false
                 if let Some(warning) = self.check_constant_expression(expression) {
                     self.warnings.push(warning);
@@ -163,7 +170,9 @@ impl Linter {
         match expr {
             Expression::BothSaem { left, right, pos } => {
                 // detect comparisons between identical number literals
-                if let (Expression::Number(n1, _), Expression::Number(n2, _)) = (left.as_ref(), right.as_ref()) {
+                if let (Expression::Number(n1, _), Expression::Number(n2, _)) =
+                    (left.as_ref(), right.as_ref())
+                {
                     if n1 == n2 {
                         return Some(format!(
                             "warning: BOTH SAEM {} AN {} is always true (line {}, column {})",
@@ -176,9 +185,11 @@ impl Linter {
                         ));
                     }
                 }
-                
+
                 // detect comparisons between identical string literals
-                if let (Expression::String(s1, _), Expression::String(s2, _)) = (left.as_ref(), right.as_ref()) {
+                if let (Expression::String(s1, _), Expression::String(s2, _)) =
+                    (left.as_ref(), right.as_ref())
+                {
                     if s1 == s2 {
                         return Some(format!(
                             "warning: BOTH SAEM \"{}\" AN \"{}\" is always true (line {}, column {})",
@@ -193,7 +204,9 @@ impl Linter {
                 }
 
                 // detect comparisons between identical constants (win, fail)
-                if let (Expression::Identifier(i1, _), Expression::Identifier(i2, _)) = (left.as_ref(), right.as_ref()) {
+                if let (Expression::Identifier(i1, _), Expression::Identifier(i2, _)) =
+                    (left.as_ref(), right.as_ref())
+                {
                     if i1 == i2 && (i1 == "WIN" || i1 == "FAIL") {
                         return Some(format!(
                             "warning: BOTH SAEM {} AN {} is always true (line {}, column {})",
@@ -205,7 +218,9 @@ impl Linter {
 
             Expression::Diffrint { left, right, pos } => {
                 // detect diffrint comparisons between identical literals
-                if let (Expression::Number(n1, _), Expression::Number(n2, _)) = (left.as_ref(), right.as_ref()) {
+                if let (Expression::Number(n1, _), Expression::Number(n2, _)) =
+                    (left.as_ref(), right.as_ref())
+                {
                     if n1 == n2 {
                         return Some(format!(
                             "warning: DIFFRINT {} AN {} is always false (line {}, column {})",

@@ -14,8 +14,8 @@ pub struct Lexer {
 impl Lexer {
     /// creates a new lexer from source string
     pub fn new(source: String) -> Self {
-        Self { 
-            source, 
+        Self {
+            source,
             position: 0,
             line: 1,
             column: 1,
@@ -115,7 +115,7 @@ impl Lexer {
     fn read_word(&mut self) -> Token {
         let line = self.line;
         let column = self.column;
-        
+
         // check for btw single-line comment before reading word
         if self.peek_word_matches("BTW") {
             for _ in 0..3 {
@@ -149,7 +149,7 @@ impl Lexer {
         } else {
             TokenKind::Identifier(result)
         };
-        
+
         Token::new(kind, line, column)
     }
 

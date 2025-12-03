@@ -1,8 +1,8 @@
 // parser: converts token stream into abstract syntax tree
 // performs strict syntax validation and builds ast nodes
 
+use crate::ast::{Block, Expression, Position, Program, Statement};
 use crate::types::{Token, TokenKind};
-use crate::ast::{Program, Block, Statement, Expression, Position};
 
 /// parser state for building ast from tokens
 pub struct Parser {
@@ -13,8 +13,8 @@ pub struct Parser {
 impl Parser {
     /// creates a new parser from a token stream
     pub fn new(tokens: Vec<Token>) -> Self {
-        Self { 
-            tokens, 
+        Self {
+            tokens,
             position: 0,
         }
     }
@@ -39,7 +39,10 @@ impl Parser {
     /// reports a parse error with position information and panics
     fn error(&self, msg: &str) -> ! {
         if let Some(token) = self.current() {
-            panic!("Parse error at line {}, column {}: {}", token.line, token.column, msg);
+            panic!(
+                "Parse error at line {}, column {}: {}",
+                token.line, token.column, msg
+            );
         } else {
             panic!("Parse error: {} (at end of file)", msg);
         }
@@ -53,7 +56,10 @@ impl Parser {
                     self.advance();
                 }
                 _ => {
-                    self.error(&format!("Expected '{}', but found {:?}", expected, token.kind));
+                    self.error(&format!(
+                        "Expected '{}', but found {:?}",
+                        expected, token.kind
+                    ));
                 }
             }
         } else {
@@ -65,7 +71,7 @@ impl Parser {
     pub fn parse_program(&mut self) -> Program {
         // lolcode programs must start with hai
         self.expect("HAI");
-        
+
         // read optional version number after hai (defaults to 1.2)
         let version = if let Some(token) = self.current() {
             if let TokenKind::Number(n) = &token.kind {
@@ -78,9 +84,9 @@ impl Parser {
         } else {
             "1.2".to_string()
         };
-        
+
         let mut statements = Vec::new();
-        
+
         // parse statements until we find kthxbye
         while let Some(token) = self.current() {
             match &token.kind {
@@ -142,7 +148,10 @@ impl Parser {
 
     /// parses a single statement (declaration, assignment, visible, control flow)
     fn parse_statement(&mut self) -> Option<Statement> {
-        let pos = self.current().map(|t| Position { line: t.line, column: t.column })?;
+        let pos = self.current().map(|t| Position {
+            line: t.line,
+            column: t.column,
+        })?;
         // check for block structures first (conditionals and loops)
         if let Some(token) = self.current() {
             if let TokenKind::Keyword(k) = &token.kind {
@@ -152,18 +161,22 @@ impl Parser {
                         if matches!(&next.kind, TokenKind::Keyword(k) if k == "RLY?") {
                             self.advance();
                             self.advance();
-                            
+
                             // skip newlines between o rly? and ya rly
-                            while matches!(self.current().map(|t| &t.kind), Some(TokenKind::Newline)) {
+                            while matches!(
+                                self.current().map(|t| &t.kind),
+                                Some(TokenKind::Newline)
+                            ) {
                                 self.advance();
                             }
-                            
+
                             // expect ya rly block start
                             if let Some(t) = self.current() {
                                 if let TokenKind::Keyword(k) = &t.kind {
                                     if k == "YA" {
                                         if let Some(next) = self.peek(1) {
-                                            if matches!(&next.kind, TokenKind::Keyword(k) if k == "RLY") {
+                                            if matches!(&next.kind, TokenKind::Keyword(k) if k == "RLY")
+                                            {
                                                 self.advance();
                                                 self.advance();
                                             } else {
@@ -175,16 +188,17 @@ impl Parser {
                                     }
                                 }
                             }
-                            
+
                             // parse the ya rly block body
                             let ya_rly = self.parse_block(&["NO", "OIC", "MEBBE"]);
-                            
+
                             // check for optional no wai (else) block
                             let no_wai = if let Some(t) = self.current() {
                                 if let TokenKind::Keyword(k) = &t.kind {
                                     if k == "NO" {
                                         if let Some(next) = self.peek(1) {
-                                            if matches!(&next.kind, TokenKind::Keyword(k) if k == "WAI") {
+                                            if matches!(&next.kind, TokenKind::Keyword(k) if k == "WAI")
+                                            {
                                                 self.advance();
                                                 self.advance();
                                                 Some(self.parse_block(&["OIC"]))
@@ -203,10 +217,10 @@ impl Parser {
                             } else {
                                 None
                             };
-                            
+
                             // expect oic to close the conditional
                             self.expect("OIC");
-                            
+
                             return Some(Statement::ORly {
                                 ya_rly,
                                 no_wai,
@@ -223,15 +237,16 @@ impl Parser {
                             if let Some(t2) = self.peek(2) {
                                 if matches!(&t2.kind, TokenKind::Keyword(k) if k == "YR") {
                                     if let Some(t3) = self.peek(3) {
-                                        if matches!(&t3.kind, TokenKind::Keyword(k) if k == "LOOP") {
+                                        if matches!(&t3.kind, TokenKind::Keyword(k) if k == "LOOP")
+                                        {
                                             self.advance();
                                             self.advance();
                                             self.advance();
                                             self.advance();
-                                            
+
                                             // parse loop body with special handling for im outta yr loop
                                             let body = self.parse_loop_body();
-                                            
+
                                             return Some(Statement::Loop { body, pos });
                                         }
                                     }
@@ -250,40 +265,59 @@ impl Parser {
                 TokenKind::Keyword(k) if k == "VISIBLE" => {
                     self.advance();
                     let mut expressions = Vec::new();
-                    
+
                     // parse first expression if present
                     if let Some(t) = self.current() {
                         if !matches!(&t.kind, TokenKind::Newline) {
                             expressions.push(self.parse_expression());
                         }
                     }
-                    
+
                     // parse additional expressions for multi-value output
                     // visible can print multiple values separated by spaces
                     loop {
                         match self.current() {
-                            None | Some(Token { kind: TokenKind::Newline, .. }) => break,
-                            Some(Token { kind: TokenKind::Identifier(_), .. }) |
-                            Some(Token { kind: TokenKind::Number(_), .. }) |
-                            Some(Token { kind: TokenKind::StringLiteral(_), .. }) |
-                            Some(Token { kind: TokenKind::Keyword(_), .. }) => {
+                            None
+                            | Some(Token {
+                                kind: TokenKind::Newline,
+                                ..
+                            }) => break,
+                            Some(Token {
+                                kind: TokenKind::Identifier(_),
+                                ..
+                            })
+                            | Some(Token {
+                                kind: TokenKind::Number(_),
+                                ..
+                            })
+                            | Some(Token {
+                                kind: TokenKind::StringLiteral(_),
+                                ..
+                            })
+                            | Some(Token {
+                                kind: TokenKind::Keyword(_),
+                                ..
+                            }) => {
                                 expressions.push(self.parse_expression());
                             }
                             Some(t) => {
-                                self.error(&format!("Unexpected token after expression in VISIBLE: {:?}", t.kind));
+                                self.error(&format!(
+                                    "Unexpected token after expression in VISIBLE: {:?}",
+                                    t.kind
+                                ));
                             }
                         }
                     }
-                    
+
                     return Some(Statement::Visible { expressions, pos });
                 }
-                
+
                 // i has a - variable declaration
                 TokenKind::Keyword(k) if k == "I" => {
                     self.advance();
                     self.expect("HAS");
                     self.expect("A");
-                    
+
                     // read variable identifier
                     let name = if let Some(t) = self.current() {
                         if let TokenKind::Identifier(id) = &t.kind {
@@ -296,20 +330,23 @@ impl Parser {
                     } else {
                         self.error("Expected identifier after I HAS A");
                     };
-                    
+
                     // check for optional itz initialization
                     let value = if let Some(t) = self.current() {
                         if matches!(&t.kind, TokenKind::Keyword(k) if k == "ITZ") {
                             self.advance();
                             let expr = self.parse_expression();
-                            
+
                             // ensure expression ends at newline or eof
                             if let Some(next) = self.current() {
                                 if !matches!(&next.kind, TokenKind::Newline) {
-                                    self.error(&format!("Expected newline after expression, found {:?}", next.kind));
+                                    self.error(&format!(
+                                        "Expected newline after expression, found {:?}",
+                                        next.kind
+                                    ));
                                 }
                             }
-                            
+
                             Some(expr)
                         } else {
                             None
@@ -317,51 +354,64 @@ impl Parser {
                     } else {
                         None
                     };
-                    
+
                     return Some(Statement::Declaration { name, value, pos });
                 }
-                
+
                 // assignment: <identifier> r <value>
                 TokenKind::Identifier(id) => {
                     let name = id.clone();
                     self.advance();
-                    
+
                     if let Some(t) = self.current() {
                         if matches!(&t.kind, TokenKind::Keyword(k) if k == "R") {
                             self.advance();
                             let expr = self.parse_expression();
-                            
+
                             // ensure expression ends at newline or eof
                             if let Some(next) = self.current() {
                                 if !matches!(&next.kind, TokenKind::Newline) {
-                                    self.error(&format!("Expected newline after expression, found {:?}", next.kind));
+                                    self.error(&format!(
+                                        "Expected newline after expression, found {:?}",
+                                        next.kind
+                                    ));
                                 }
                             }
-                            
+
                             let value = Some(expr);
                             return Some(Statement::Assignment { name, value, pos });
                         }
                     }
-                    
+
                     None
                 }
-                
+
                 // expression statements that set the implicit it variable
                 // e.g., both saem x an y, sum of a an b, etc.
-                TokenKind::Keyword(k) if matches!(k.as_str(), 
-                    "SUM" | "DIFF" | "PRODUKT" | "QUOSHUNT" | "MOD" | "BOTH" | "DIFFRINT") => {
+                TokenKind::Keyword(k)
+                    if matches!(
+                        k.as_str(),
+                        "SUM" | "DIFF" | "PRODUKT" | "QUOSHUNT" | "MOD" | "BOTH" | "DIFFRINT"
+                    ) =>
+                {
                     let expr = self.parse_expression();
-                    
+
                     // ensure expression ends at newline or eof
                     if let Some(next) = self.current() {
                         if !matches!(&next.kind, TokenKind::Newline) {
-                            self.error(&format!("Expected newline after expression statement, found {:?}", next.kind));
+                            self.error(&format!(
+                                "Expected newline after expression statement, found {:?}",
+                                next.kind
+                            ));
                         }
                     }
-                    
-                    return Some(Statement::ExpressionStatement { expression: expr, pos });
+
+                    return Some(Statement::ExpressionStatement {
+                        expression: expr,
+                        pos,
+                    });
                 }
-                
+
                 // skip unknown tokens
                 _ => {
                     self.advance();
@@ -386,7 +436,8 @@ impl Parser {
                             if let Some(t2) = self.peek(2) {
                                 if matches!(&t2.kind, TokenKind::Keyword(k) if k == "YR") {
                                     if let Some(t3) = self.peek(3) {
-                                        if matches!(&t3.kind, TokenKind::Keyword(k) if k == "LOOP") {
+                                        if matches!(&t3.kind, TokenKind::Keyword(k) if k == "LOOP")
+                                        {
                                             self.advance();
                                             self.advance();
                                             self.advance();
@@ -419,7 +470,10 @@ impl Parser {
     /// parses an expression (literal, identifier, or operation)
     fn parse_expression(&mut self) -> Expression {
         let token = self.current().expect("unexpected EOF in expression");
-        let pos = Position { line: token.line, column: token.column };
+        let pos = Position {
+            line: token.line,
+            column: token.column,
+        };
 
         match &token.kind {
             // number literal
@@ -450,7 +504,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Sum { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Sum {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // diff of - subtraction
@@ -460,7 +518,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Diff { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Diff {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // produkt of - multiplication
@@ -470,7 +532,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Produkt { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Produkt {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // quoshunt of - division
@@ -480,7 +546,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Quoshunt { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Quoshunt {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // mod of - modulo
@@ -490,7 +560,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Mod { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Mod {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // both saem - equality comparison
@@ -500,7 +574,11 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::BothSaem { left: Box::new(left), right: Box::new(right), pos }
+                Expression::BothSaem {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
             // diffrint - inequality comparison
@@ -509,10 +587,14 @@ impl Parser {
                 let left = self.parse_expression();
                 self.expect("AN");
                 let right = self.parse_expression();
-                Expression::Diffrint { left: Box::new(left), right: Box::new(right), pos }
+                Expression::Diffrint {
+                    left: Box::new(left),
+                    right: Box::new(right),
+                    pos,
+                }
             }
 
-            _ => self.error(&format!("Unexpected token in expression: {:?}", token.kind))
+            _ => self.error(&format!("Unexpected token in expression: {:?}", token.kind)),
         }
     }
 }
