@@ -12,6 +12,8 @@ A strict, unapologetic linter for **LOLCODE**
 
 **The language is a joke. This linter isn't.**
 
+Built with [Rust](https://www.rust-lang.org) for speed and reliability.
+
 </div>
 
 ---
