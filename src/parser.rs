@@ -309,7 +309,7 @@ impl Parser {
                         }
                     }
 
-                    return Some(Statement::Visible { expressions, pos });
+                    Some(Statement::Visible { expressions, pos })
                 }
 
                 // i has a - variable declaration
@@ -355,7 +355,7 @@ impl Parser {
                         None
                     };
 
-                    return Some(Statement::Declaration { name, value, pos });
+                    Some(Statement::Declaration { name, value, pos })
                 }
 
                 // assignment: <identifier> r <value>
@@ -406,10 +406,10 @@ impl Parser {
                         }
                     }
 
-                    return Some(Statement::ExpressionStatement {
+                    Some(Statement::Expr {
                         expression: expr,
                         pos,
-                    });
+                    })
                 }
 
                 // skip unknown tokens

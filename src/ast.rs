@@ -89,7 +89,7 @@ pub enum Statement {
     Loop { body: Block, pos: Position },
 
     /// standalone expression statement (sets implicit it variable)
-    ExpressionStatement {
+    Expr {
         expression: Expression,
         pos: Position,
     },

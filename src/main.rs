@@ -267,7 +267,7 @@ fn count_in_block(
                     *exprs += 1;
                 }
             }
-            ast::Statement::ExpressionStatement { .. } => {
+            ast::Statement::Expr { .. } => {
                 *exprs += 1;
             }
         }

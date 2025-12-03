@@ -121,7 +121,7 @@ impl Linter {
                 self.check_block(body);
             }
 
-            Statement::ExpressionStatement { expression, pos: _ } => {
+            Statement::Expr { expression, pos: _ } => {
                 self.check_expression(expression);
 
                 // detect constant expressions that are always true/false
