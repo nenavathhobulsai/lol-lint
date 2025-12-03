@@ -2,7 +2,7 @@
 
 # lol-lint
 
-A strict, unapologetic linter for **LOLCODE**
+A strict, unapologetic linter for [**LOLCODE**](http://www.lolcode.org)
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jerankda/lol-lint/ci.yml?branch=main)](https://github.com/jerankda/lol-lint/actions)
 [![Crates.io](https://img.shields.io/crates/v/lol-lint.svg)](https://crates.io/crates/lol-lint)
